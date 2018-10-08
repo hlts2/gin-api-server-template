@@ -1,20 +1,20 @@
 package infrastructure
 
 import (
-	"os"
+	"database/sql"
+	"fmt"
+
+	"github.com/hlts2/gin-server-template/config"
 )
 
-// NewDB returns mysql db object
-func NewDB() {
-	_ = getENV("DB_USER", "root")
-	_ = getENV("DB_PASSWORD", "root")
-}
+// NewDBConnection returns mysql db connection
+func NewDBConnection(c *config.DB) (*sql.DB, error) {
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=true&loc=Asia/Tokyo", c.User, c.Password, c.Host, c.Port, c.Name)
 
-func getENV(key, def string) string {
-	env := os.Getenv(key)
-	if len(env) == 0 {
-		return def
+	db, err := sql.Open("mysql", dsn)
+	if err != nil {
+		return nil, err
 	}
 
-	return env
+	return db, nil
 }
