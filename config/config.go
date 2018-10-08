@@ -12,6 +12,7 @@ type DB struct {
 	Host     string `yaml:"host"`
 	Port     string `yaml:"port"`
 	Name     string `yaml:"name"`
+	Param    string `yaml:"param"`
 }
 
 // LoadConfig loads config of the given path
