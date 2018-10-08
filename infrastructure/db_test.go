@@ -14,21 +14,41 @@ func TestGetDSN(t *testing.T) {
 		host     = "127.0.0.1"
 		port     = "3306"
 		name     = "sample"
-		param    = "charset=utf8mb4&param=true&loc=Asia/Tokyo"
+		param    = "charset=utf8mb4&parseTime=true&loc=Asia/Tokyo"
 	)
 
-	got := getDSN(&config.DB{
-		User:     user,
-		Password: password,
-		Host:     host,
-		Port:     port,
-		Name:     name,
-		Param:    param,
-	})
+	tests := []struct {
+		c        *config.DB
+		expected string
+	}{
+		{
+			c: &config.DB{
+				User:     user,
+				Password: password,
+				Host:     host,
+				Port:     port,
+				Name:     name,
+			},
+			expected: fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", user, password, host, port, name),
+		},
+		{
+			c: &config.DB{
+				User:     user,
+				Password: password,
+				Host:     host,
+				Port:     port,
+				Name:     name,
+				Param:    param,
+			},
+			expected: fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", user, password, host, port, name, param),
+		},
+	}
 
-	expected := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?%s", user, password, host, port, name, param)
+	for i, test := range tests {
+		got := getDSN(test.c)
 
-	if expected != got {
-		t.Errorf("getDSN is wrong. expected: %s, got: %s", expected, got)
+		if test.expected != got {
+			t.Errorf("tests[%d] - getDSN is wrong. expected: %v, got: %v", i, test.expected, got)
+		}
 	}
 }

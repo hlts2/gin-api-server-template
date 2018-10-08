@@ -2,7 +2,7 @@ package config
 
 // Config is base config object of this application
 type Config struct {
-	DB
+	DB `yaml:"db"`
 }
 
 // DB is config of db
