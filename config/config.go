@@ -30,15 +30,21 @@ func LoadConfig(path string) error {
 		return err
 	}
 
-	err = yaml.NewDecoder(f).Decode(config)
+	var c Config
+	err = yaml.NewDecoder(f).Decode(&c)
 	if err != nil {
 		return err
 	}
+	config = &c
 
 	return nil
 }
 
 // GetConfig returns Config object
 func GetConfig() Config {
+	if config == nil {
+		return Config{}
+	}
+
 	return *config
 }
