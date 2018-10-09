@@ -17,7 +17,7 @@ func NewTweetRepositoryImplWithRDB(conn *sql.DB) repository.TweetRepository {
 	return &tweetRepositoryImpl{conn: conn}
 }
 
-func (tr *tweetRepositoryImpl) Get(id int) *domain.Tweet {
+func (tr *tweetRepositoryImpl) Get(id string) *domain.Tweet {
 	return nil
 }
 
