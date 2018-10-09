@@ -8,8 +8,9 @@ import (
 )
 
 // NewDBConnection returns mysql db connection
-func NewDBConnection(c *config.DB) (*sql.DB, error) {
-	db, err := sql.Open("mysql", getDSN(c))
+func NewDBConnection() (*sql.DB, error) {
+	dsn := getDSN(config.GetConfig().DB)
+	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}
@@ -17,7 +18,7 @@ func NewDBConnection(c *config.DB) (*sql.DB, error) {
 	return db, nil
 }
 
-func getDSN(c *config.DB) string {
+func getDSN(c config.DB) string {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", c.User, c.Password, c.Host, c.Port, c.Name)
 	if len(c.Param) == 0 {
 		return dsn
