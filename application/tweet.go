@@ -19,7 +19,7 @@ func GetTweet(id string) *domain.Tweet {
 }
 
 // GetTweets returns all tweet models
-func GetTweets() *domain.Tweets {
+func GetTweets() domain.Tweets {
 	conn, err := infrastructure.NewDBConnection()
 	if err != nil {
 		return nil
