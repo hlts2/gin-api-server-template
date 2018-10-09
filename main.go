@@ -15,7 +15,7 @@ func main() {
 	g.GET("/tweets/:id", interfaces.GetTweet)
 
 	var port string
-	if port = os.Getenv("PORT"); 0 == len(port) {
+	if port = os.Getenv("PORT"); len(port) == 0 {
 		port = "8080"
 	}
 
