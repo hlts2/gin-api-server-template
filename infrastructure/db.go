@@ -1,16 +1,17 @@
 package infrastructure
 
 import (
-	"database/sql"
 	"fmt"
+
+	"github.com/jinzhu/gorm"
 
 	"github.com/hlts2/gin-server-template/config"
 )
 
 // NewDBConnection returns mysql db connection
-func NewDBConnection() (*sql.DB, error) {
+func NewDBConnection() (*gorm.DB, error) {
 	dsn := getDSN(config.GetConfig().DB)
-	db, err := sql.Open("mysql", dsn)
+	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
 		return nil, err
 	}
