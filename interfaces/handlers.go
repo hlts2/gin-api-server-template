@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/hlts2/gin-server-template/application"
 	"github.com/hlts2/gin-server-template/domain"
+	"github.com/jinzhu/gorm"
 )
 
 // GetTweet is handler to get tweet
@@ -21,7 +22,13 @@ func GetTweet(ctxt *gin.Context) {
 
 	var err error
 	if tweet, err = application.GetTweet(id); err != nil {
-		ctxt.JSON(http.StatusBadRequest, err)
+		if err == gorm.ErrRecordNotFound {
+			// TODO: fix error messsage
+			ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		}
+
+		ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+
 		return
 	}
 
