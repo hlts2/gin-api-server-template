@@ -7,10 +7,10 @@ import (
 )
 
 // GetTweet returns tweet model object of given id
-func GetTweet(id string) *domain.Tweet {
+func GetTweet(id string) (domain.Tweet, error) {
 	conn, err := infrastructure.NewDBConnection()
 	if err != nil {
-		return nil
+		return domain.Tweet{}, err
 	}
 	defer conn.Close()
 
@@ -19,10 +19,10 @@ func GetTweet(id string) *domain.Tweet {
 }
 
 // GetTweets returns all tweet models
-func GetTweets() domain.Tweets {
+func GetTweets() (domain.Tweets, error) {
 	conn, err := infrastructure.NewDBConnection()
 	if err != nil {
-		return nil
+		return domain.Tweets{}, err
 	}
 
 	defer conn.Close()
