@@ -12,13 +12,13 @@ import (
 
 // GetTweet is handler to get tweet
 func GetTweet(ctxt *gin.Context) {
-	var tweet domain.Tweet
-
 	id := ctxt.GetString("id")
 	if len(id) == 0 {
 		ctxt.JSON(http.StatusBadRequest, errors.New("id is not full"))
 		return
 	}
+
+	var tweet domain.Tweet
 
 	var err error
 	if tweet, err = application.GetTweet(id); err != nil {
