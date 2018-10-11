@@ -37,4 +37,18 @@ func GetTweet(ctxt *gin.Context) {
 
 // GetTweets is handler to get tweets
 func GetTweets(ctxt *gin.Context) {
+	var tweets domain.Tweets
+
+	var err error
+	if tweets, err = application.GetTweets(); err != nil {
+		if err == gorm.ErrRecordNotFound {
+			// TODO: fix error messsage
+			ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		}
+
+		ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctxt.JSON(200, tweets)
 }
