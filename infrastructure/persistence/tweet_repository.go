@@ -1,11 +1,16 @@
 package persistence
 
 import (
+	"errors"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hlts2/gin-server-template/domain"
 	"github.com/hlts2/gin-server-template/domain/repository"
 	"github.com/jinzhu/gorm"
 )
+
+// ErrNotRecord is error that dose not exist
+var ErrNotRecord = errors.New("record not found")
 
 // tweetRepositoryImpl is implementation of TweetRepository interfaces
 type tweetRepositoryImpl struct {
@@ -32,6 +37,10 @@ func (tr *tweetRepositoryImpl) Gets() (domain.Tweets, error) {
 	tweets := domain.Tweets{}
 	if err := tr.conn.Find(&tweets).Error; err != nil {
 		return tweets, err
+	}
+
+	if len(tweets) == 0 {
+		return tweets, ErrNotRecord
 	}
 
 	return tweets, nil
