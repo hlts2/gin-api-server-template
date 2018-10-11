@@ -22,13 +22,7 @@ func GetTweet(ctxt *gin.Context) {
 
 	var err error
 	if tweet, err = application.GetTweet(id); err != nil {
-		if err == gorm.ErrRecordNotFound {
-			// TODO: fix error messsage
-			ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		}
-
-		ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
-
+		errorResponse(ctxt, err)
 		return
 	}
 
@@ -41,14 +35,18 @@ func GetTweets(ctxt *gin.Context) {
 
 	var err error
 	if tweets, err = application.GetTweets(); err != nil {
-		if err == gorm.ErrRecordNotFound {
-			// TODO: fix error messsage
-			ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
-		}
-
-		ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		errorResponse(ctxt, err)
 		return
 	}
 
 	ctxt.JSON(200, tweets)
+}
+
+func errorResponse(ctxt *gin.Context, err error) {
+	if err == gorm.ErrRecordNotFound {
+		// TODO: fix error messsage
+		ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+	}
+
+	ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 }
