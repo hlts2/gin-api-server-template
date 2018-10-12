@@ -5,6 +5,7 @@ import (
 	"github.com/hlts2/gin-server-template/domain"
 	"github.com/hlts2/gin-server-template/domain/repository"
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 )
 
 // tweetRepositoryImpl is implementation of TweetRepository interfaces
@@ -22,7 +23,7 @@ func (tr *tweetRepositoryImpl) Get(id string) (domain.Tweet, error) {
 	tweet.ID = id
 
 	if err := tr.conn.First(&tweet).Error; err != nil {
-		return tweet, err
+		return tweet, errors.Wrap(err, "tweet id#"+id)
 	}
 
 	return tweet, nil
@@ -31,11 +32,11 @@ func (tr *tweetRepositoryImpl) Get(id string) (domain.Tweet, error) {
 func (tr *tweetRepositoryImpl) Gets() (domain.Tweets, error) {
 	tweets := domain.Tweets{}
 	if err := tr.conn.Find(&tweets).Error; err != nil {
-		return tweets, err
+		return tweets, errors.Wrap(err, "tweets ")
 	}
 
 	if len(tweets) == 0 {
-		return tweets, gorm.ErrRecordNotFound
+		return tweets, errors.Wrap(gorm.ErrRecordNotFound, "tweets ")
 	}
 
 	return tweets, nil
