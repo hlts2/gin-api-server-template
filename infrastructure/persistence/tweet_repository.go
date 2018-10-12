@@ -23,7 +23,10 @@ func (tr *tweetRepositoryImpl) Get(id string) (domain.Tweet, error) {
 	tweet.ID = id
 
 	if err := tr.conn.First(&tweet).Error; err != nil {
-		return tweet, errors.Wrap(err, "tweet id#"+id)
+		if err == gorm.ErrRecordNotFound {
+			return tweet, errors.Wrap(err, "tweet id#"+id)
+		}
+		return tweet, err
 	}
 
 	return tweet, nil
@@ -32,7 +35,10 @@ func (tr *tweetRepositoryImpl) Get(id string) (domain.Tweet, error) {
 func (tr *tweetRepositoryImpl) Gets() (domain.Tweets, error) {
 	tweets := domain.Tweets{}
 	if err := tr.conn.Find(&tweets).Error; err != nil {
-		return tweets, errors.Wrap(err, "tweets ")
+		if err == gorm.ErrRecordNotFound {
+			return tweets, errors.Wrap(err, "tweets ")
+		}
+		return tweets, err
 	}
 
 	if len(tweets) == 0 {
