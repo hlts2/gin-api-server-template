@@ -44,8 +44,8 @@ func GetTweets(ctxt *gin.Context) {
 
 func errorResponse(ctxt *gin.Context, err error) {
 	if err == gorm.ErrRecordNotFound {
-		// TODO: fix error messsage
 		ctxt.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+		return
 	}
 
 	ctxt.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
