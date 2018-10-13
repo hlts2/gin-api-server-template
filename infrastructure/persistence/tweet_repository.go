@@ -1,7 +1,6 @@
 package persistence
 
 import (
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/hlts2/gin-server-template/domain"
 	"github.com/hlts2/gin-server-template/domain/repository"
 	"github.com/jinzhu/gorm"
