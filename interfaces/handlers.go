@@ -10,11 +10,14 @@ import (
 	"github.com/jinzhu/gorm"
 )
 
+// ErrIDNotFull is error that id is not full
+var ErrIDNotFull = errors.New("id is not full")
+
 // GetTweet is handler to get tweet
 func GetTweet(ctxt *gin.Context) {
 	id := ctxt.GetString("id")
 	if len(id) == 0 {
-		ctxt.JSON(http.StatusBadRequest, errors.New("id is not full"))
+		ctxt.JSON(http.StatusBadRequest, ErrIDNotFull)
 		return
 	}
 
