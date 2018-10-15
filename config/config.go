@@ -10,8 +10,13 @@ var config *Config
 
 // Config is base config object of this application
 type Config struct {
+	Server `yaml:"server"`
+	DB     `yaml:"db"`
+}
+
+// Server is config of server
+type Server struct {
 	Port string `yaml:"port"`
-	DB   `yaml:"db"`
 }
 
 // DB is config of db

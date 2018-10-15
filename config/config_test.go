@@ -21,7 +21,9 @@ func TestLoadConfig(t *testing.T) {
 			}{
 				hasErr: false,
 				config: &Config{
-					Port: "8080",
+					Server: Server{
+						Port: "8080",
+					},
 					DB: DB{
 						User:     "little",
 						Password: "tiny",
