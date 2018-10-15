@@ -1,2 +1,2 @@
-# gin-server-template
-gin-server-template
+# gin-api-server-template
+gin-api-server-template
