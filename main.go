@@ -8,6 +8,13 @@ import (
 	"github.com/hlts2/gin-server-template/interfaces"
 )
 
+func init() {
+	// err := config.Init("./config.yaml")
+	// if err != nil {
+	// 	glg.Fatal(err)
+	// }
+}
+
 func main() {
 	g := gin.Default()
 
