@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jinzhu/gorm"
+	"github.com/pkg/errors"
 
 	"github.com/hlts2/gin-server-template/config"
 )
@@ -13,7 +14,7 @@ func NewDBConnection() (*gorm.DB, error) {
 	dsn := getDSN(config.GetConfig().DB)
 	db, err := gorm.Open("mysql", dsn)
 	if err != nil {
-		return nil, err
+		return nil, errors.Wrap(err, "DB connection faild")
 	}
 
 	return db, nil
