@@ -29,8 +29,8 @@ type DB struct {
 	Param    string `yaml:"param"`
 }
 
-// LoadConfig loads config of the given path
-func LoadConfig(path string) error {
+// Init loads config of the given path
+func Init(path string) error {
 	f, err := os.Open(path)
 	if err != nil {
 		return err

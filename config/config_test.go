@@ -63,7 +63,7 @@ func TestLoadConfig(t *testing.T) {
 				config = nil
 			}()
 
-			got := LoadConfig(test.path)
+			got := Init(test.path)
 
 			hasErr := !(got == nil)
 
