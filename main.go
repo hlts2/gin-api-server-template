@@ -1,18 +1,48 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/hlts2/gin-server-template/config"
 	"github.com/hlts2/gin-server-template/interfaces"
+	"github.com/kpango/glg"
+	"github.com/pkg/errors"
 )
 
+type params struct {
+	configFilePath string
+}
+
+func parseParams() (*params, error) {
+	p := new(params)
+
+	f := flag.NewFlagSet(os.Args[0], flag.ExitOnError)
+	f.StringVar(&p.configFilePath,
+		"f",
+		"/etc/server/config.yaml",
+		"config file path")
+
+	err := f.Parse(os.Args[1:])
+	if err != nil {
+		return nil, errors.Wrap(err, "parse faild")
+	}
+
+	return p, nil
+}
+
 func init() {
-	// err := config.Init("./config.yaml")
-	// if err != nil {
-	// 	glg.Fatal(err)
-	// }
+	p, err := parseParams()
+	if err != nil {
+		glg.Fatal(err)
+	}
+
+	err = config.Init(p.configFilePath)
+	if err != nil {
+		glg.Fatal(err)
+	}
 }
 
 func main() {
