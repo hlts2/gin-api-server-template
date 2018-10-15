@@ -11,8 +11,8 @@ import (
 func main() {
 	g := gin.Default()
 
-	g.GET("/tweets/", interfaces.GetTweets)
-	g.GET("/tweets/:id", interfaces.GetTweet)
+	g.GET("/Users/", interfaces.GetUsers)
+	g.GET("/Users/:id", interfaces.GetUser)
 
 	var port string
 	if port = os.Getenv("PORT"); len(port) == 0 {

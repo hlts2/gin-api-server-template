@@ -7,42 +7,42 @@ import (
 	"github.com/pkg/errors"
 )
 
-// tweetRepositoryImpl is implementation of TweetRepository interfaces
-type tweetRepositoryImpl struct {
+// userRepositoryImpl is implementation of UserRepository interfaces
+type userRepositoryImpl struct {
 	conn *gorm.DB
 }
 
-// NewTweetRepositoryImplWithRDB returns tweetRepositoryImpl(repository.TweetRepository) object
-func NewTweetRepositoryImplWithRDB(conn *gorm.DB) repository.TweetRepository {
-	return &tweetRepositoryImpl{conn: conn}
+// NewUserRepositoryImplWithRDB returns userRepositoryImpl(repository.UserRepository) object
+func NewUserRepositoryImplWithRDB(conn *gorm.DB) repository.UserRepository {
+	return &userRepositoryImpl{conn: conn}
 }
 
-func (tr *tweetRepositoryImpl) Get(id string) (domain.Tweet, error) {
-	tweet := domain.Tweet{}
-	tweet.ID = id
+func (ur *userRepositoryImpl) Get(id string) (domain.User, error) {
+	user := domain.User{}
+	user.ID = id
 
-	if err := tr.conn.First(&tweet).Error; err != nil {
+	if err := ur.conn.First(&user).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return tweet, errors.Wrap(err, "tweet id#"+id)
+			return user, errors.Wrap(err, "tweet id#"+id)
 		}
-		return tweet, err
+		return user, err
 	}
 
-	return tweet, nil
+	return user, nil
 }
 
-func (tr *tweetRepositoryImpl) Gets() (domain.Tweets, error) {
-	tweets := domain.Tweets{}
-	if err := tr.conn.Find(&tweets).Error; err != nil {
+func (ur *userRepositoryImpl) Gets() (domain.Users, error) {
+	users := domain.Users{}
+	if err := ur.conn.Find(&users).Error; err != nil {
 		if err == gorm.ErrRecordNotFound {
-			return tweets, errors.Wrap(err, "tweets ")
+			return users, errors.Wrap(err, "users ")
 		}
-		return tweets, err
+		return users, err
 	}
 
-	if len(tweets) == 0 {
-		return tweets, errors.Wrap(gorm.ErrRecordNotFound, "tweets ")
+	if len(users) == 0 {
+		return users, errors.Wrap(gorm.ErrRecordNotFound, "users ")
 	}
 
-	return tweets, nil
+	return users, nil
 }

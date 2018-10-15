@@ -13,36 +13,36 @@ import (
 // ErrIDNotFull is error that id is not full
 var ErrIDNotFull = errors.New("id is not full")
 
-// GetTweet is handler to get tweet
-func GetTweet(ctxt *gin.Context) {
+// GetUser is handler to get user
+func GetUser(ctxt *gin.Context) {
 	id := ctxt.GetString("id")
 	if len(id) == 0 {
 		ctxt.JSON(http.StatusBadRequest, ErrIDNotFull)
 		return
 	}
 
-	var tweet domain.Tweet
+	var user domain.User
 
 	var err error
-	if tweet, err = application.GetTweet(id); err != nil {
+	if user, err = application.GetUser(id); err != nil {
 		errorResponse(ctxt, err)
 		return
 	}
 
-	ctxt.JSON(200, tweet)
+	ctxt.JSON(200, user)
 }
 
-// GetTweets is handler to get tweets
-func GetTweets(ctxt *gin.Context) {
-	var tweets domain.Tweets
+// GetUsers is handler to get users
+func GetUsers(ctxt *gin.Context) {
+	var users domain.Users
 
 	var err error
-	if tweets, err = application.GetTweets(); err != nil {
+	if users, err = application.GetUsers(); err != nil {
 		errorResponse(ctxt, err)
 		return
 	}
 
-	ctxt.JSON(200, tweets)
+	ctxt.JSON(200, users)
 }
 
 func errorResponse(ctxt *gin.Context, err error) {

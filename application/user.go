@@ -6,27 +6,27 @@ import (
 	"github.com/hlts2/gin-server-template/infrastructure/persistence"
 )
 
-// GetTweet returns tweet model object of given id
-func GetTweet(id string) (domain.Tweet, error) {
+// GetUser returns user model object of given id
+func GetUser(id string) (domain.User, error) {
 	conn, err := infrastructure.NewDBConnection()
 	if err != nil {
-		return domain.Tweet{}, err
+		return domain.User{}, err
 	}
 	defer conn.Close()
 
-	repo := persistence.NewTweetRepositoryImplWithRDB(conn)
+	repo := persistence.NewUserRepositoryImplWithRDB(conn)
 	return repo.Get(id)
 }
 
-// GetTweets returns all tweet models
-func GetTweets() (domain.Tweets, error) {
+// GetUsers returns all user models
+func GetUsers() (domain.Users, error) {
 	conn, err := infrastructure.NewDBConnection()
 	if err != nil {
-		return domain.Tweets{}, err
+		return domain.Users{}, err
 	}
 
 	defer conn.Close()
 
-	rep := persistence.NewTweetRepositoryImplWithRDB(conn)
+	rep := persistence.NewUserRepositoryImplWithRDB(conn)
 	return rep.Gets()
 }
