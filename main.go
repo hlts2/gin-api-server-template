@@ -26,7 +26,7 @@ func parseParams() (*params, error) {
 
 	err := f.Parse(os.Args[1:])
 	if err != nil {
-		return nil, errors.Wrap(err, "parse faild")
+		return nil, err
 	}
 
 	return p, nil
@@ -35,12 +35,12 @@ func parseParams() (*params, error) {
 func init() {
 	p, err := parseParams()
 	if err != nil {
-		glg.Fatal(err)
+		glg.Fatal(errors.Wrap(err, "parse params faild"))
 	}
 
 	err = config.Init(p.configFilePath)
 	if err != nil {
-		glg.Fatal(err)
+		glg.Fatal(errors.Wrap(err, "config initialize faild"))
 	}
 }
 
