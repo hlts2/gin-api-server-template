@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -51,12 +50,7 @@ func main() {
 	g.GET("/Users/", interfaces.GetUsers)
 	g.GET("/Users/:id", interfaces.GetUser)
 
-	var port string
-	if port = os.Getenv("PORT"); len(port) == 0 {
-		port = "8080"
-	}
-
-	if err := g.Run(":" + port); err != nil {
-		log.Fatal(err)
+	if err := g.Run(":" + config.GetConfig().Server.Port); err != nil {
+		glg.Fatal(err)
 	}
 }
