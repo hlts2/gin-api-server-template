@@ -40,7 +40,7 @@ func init() {
 
 	err = config.Init(p.configFilePath)
 	if err != nil {
-		glg.Fatal(errors.Wrap(err, "config initialize faild"))
+		glg.Fatal(errors.Wrap(err, "faild to initialize config file"))
 	}
 }
 
